@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOSJA GOLD</title>
+<style>
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+body{margin:0;background:#0a0a0a;color:#fff;min-height:100vh;overflow-x:hidden}
+@keyframes flutuar{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes brilho{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes subir{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sumir{to{opacity:0;transform:scale(.95);visibility:hidden}}
+@keyframes pulsoGold{0%{box-shadow:0 0 0 0 rgba(255,215,0,.5)}100%{box-shadow:0 0 0 18px rgba(255,215,0,0)}}
+.gold-text{background:linear-gradient(90deg,#FFD700,#FFF8DC,#FFA500,#FFD700);background-size:300% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:brilho 3s linear infinite;font-weight:900}
+.glass{background:rgba(255,255,255,.08);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,215,0,.35);box-shadow:0 8px 32px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.2)}
+.login{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:radial-gradient(600px 400px at 50% 0%, #3a2a00 0%, #000 65%);transition:.5s}
+.login.sumindo{animation:sumir .5s forwards}
+.logo{width:100px;height:100px;border-radius:30px;background:linear-gradient(135deg,#FFD700,#FFA500,#B8860B);display:flex;align-items:center;justify-content:center;font-size:50px;animation:flutuar 3s ease-in-out infinite;box-shadow:0 0 40px rgba(255,215,0,.6);border:1px solid rgba(255,255,255,.4)}
+.login h1{font-size:52px;margin:18px 0 6px;letter-spacing:2px}
+.login p{color:#d4af37;text-align:center;line-height:1.5;margin:0 0 28px}
+.gbtn{width:100%;max-width:340px;background:linear-gradient(135deg,#fff,#ffe9a8);color:#111;border:0;padding:16px;border-radius:999px;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;animation:pulsoGold 2s infinite}
+.gbtn img{width:22px}
+.apple{width:100%;max-width:340px;background:rgba(255,255,255,.08);backdrop-filter:blur(20px);color:#FFD700;border:1px solid rgba(255,215,0,.5);padding:16px;border-radius:999px;font-size:16px;font-weight:700;cursor:pointer;margin-top:12px}
+#app{display:none;min-height:100vh;background:radial-gradient(800px 500px at 50% -10%, #2a1f00 0%, #0a0a0a 60%);flex-direction:column}
+#app.mostrando{display:flex;animation:subir .6s ease}
+.header{padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,215,0,.25);background:rgba(255,255,255,.05);backdrop-filter:blur(20px)}
+.avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#FFD700,#FFA500);display:flex;align-items:center;justify-content:center;font-size:22px;animation:flutuar 3s infinite;box-shadow:0 0 20px rgba(255,215,0,.5)}
+.header b{font-size:18px}.header span{font-size:12px;color:#22c55e}
+.header button{margin-left:auto;background:rgba(255,255,255,.08);border:1px solid rgba(255,215,0,.4);color:#FFD700;padding:8px 14px;border-radius:999px}
+.modos{display:flex;gap:8px;padding:12px 16px 0}
+.modos button{flex:1;padding:13px;border-radius:999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);backdrop-filter:blur(15px);color:#aaa;font-weight:800;font-size:14px;cursor:pointer;transition:.3s}
+.modos button.ativo-suave{background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#fff;transform:scale(1.03);box-shadow:0 0 20px rgba(14,165,233,.5)}
+.modos button.ativo-extremo{background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;transform:scale(1.03);box-shadow:0 0 20px rgba(239,68,68,.6)}
+.audio-bar{display:flex;gap:8px;padding:12px 16px 0}
+.audio-bar button{flex:1;padding:11px;border-radius:999px;border:1px solid rgba(255,215,0,.35);background:rgba(255,255,255,.07);backdrop-filter:blur(15px);color:#FFD700;font-size:13px;font-weight:700;cursor:pointer}
+.audio-bar button.on{background:linear-gradient(135deg,#FFD700,#FFA500);color:#000}
+.perfil{margin:12px 16px 0;border-radius:18px;padding:14px;font-size:13px;white-space:pre-wrap;animation:subir .5s}
+#msgs{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:85%;padding:13px 15px;border-radius:20px;font-size:15px;line-height:1.4;animation:subir .4s}
+.eu{background:linear-gradient(135deg,#FFD700,#FFA500);color:#000;align-self:flex-end;border-bottom-right-radius:6px;font-weight:500;box-shadow:0 5px 20px rgba(255,215,0,.3)}
+.fosja{background:rgba(255,255,255,.1);backdrop-filter:blur(15px);border:1px solid rgba(255,215,0,.25);align-self:flex-start;border-bottom-left-radius:6px}
+.fosja.extremo{border:1px solid #ef4444;background:rgba(239,68,68,.15)}
+.fosja.suave{border:1px solid #0ea5e9;background:rgba(14,165,233,.15)}
+.msg img{max-width:100%;border-radius:12px;margin-top:8px;display:block}
+.msg small{display:block;margin-top:6px;font-size:12px;opacity:.7}
+.msg a{color:#FFD700}
+.inputbar{padding:12px;display:flex;gap:8px;border-top:1px solid rgba(255,215,0,.25);background:rgba(0,0,0,.4);backdrop-filter:blur(20px);align-items:center}
+.inputbar input[type=text]{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,215,0,.35);color:#fff;padding:14px 16px;border-radius:999px;outline:none;font-size:15px;min-width:0}
+.inputbar input::placeholder{color:#a8a29e}
+.inputbar button{width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;font-size:18px;flex-shrink:0;transition:.2s}
+.inputbar button:active{transform:scale(.9)}
+#btnClip{background:rgba(255,255,255,.1);border:1px solid rgba(255,215,0,.4);color:#FFD700}
+#btnMic{background:rgba(255,255,255,.1);border:1px solid rgba(255,215,0,.4);color:#FFD700}
+#btnMic.gravando{background:#ef4444;animation:pulsoGold 1s infinite}
+#btnSend{background:linear-gradient(135deg,#FFD700,#FFA500);color:#000;box-shadow:0 0 20px rgba(255,215,0,.5)}
+.tools{display:flex;gap:8px;padding:0 12px 12px;overflow:auto}
+.tools button{background:rgba(255,255,255,.07);border:1px solid rgba(255,215,0,.3);color:#FFD700;padding:9px 14px;border-radius:999px;white-space:nowrap;font-size:13px;backdrop-filter:blur(10px)}
+#extra{margin:0 16px 12px;border-radius:16px;padding:12px;font-size:12px;white-space:pre-wrap;display:none}
+</style>
+</head>
+<body>
+<div class="login" id="login">
+<div class="logo">🔥</div><h1 class="gold-text">FOSJA</h1>
+<p>Teu assistente GOLD.<br>Fala, manda arquivo, cria imagem.</p>
+<button class="gbtn" onclick="entrarGoogle()"><img src="https://www.google.com/favicon.ico"> Continuar com o Google</button>
+<button class="apple" onclick="entrarGoogle()"> Continuar com a Apple</button>
+<p style="font-size:11px;margin-top:20px;color:#888">Sem senha • Sem caixinha • Só clicar e entrar</p>
+</div>
+<div id="app">
+<div class="header"><div class="avatar">🔥</div><div><b class="gold-text">FOSJA GOLD</b><br><span>● online • GOLD GLASS</span></div><button onclick="sair()">Sair</button></div>
+<div class="modos"><button id="btnSuave" onclick="setModo('suave')">🌸 SUAVE</button><button id="btnExtremo" onclick="setModo('extremo')">🔥 EXTREMO</button></div>
+<div class="audio-bar"><button id="btnVoz" class="on" onclick="toggleVoz()">🔊 Voz: LIGADA</button><button onclick="testarVoz()">🎤 Testar Voz</button></div>
+<div class="perfil glass" id="perfil">Carregando...</div>
+<div id="msgs"></div>
+<div id="extra" class="glass"></div>
+<div class="tools"><button onclick="verMemoria()">🧠 Memória</button><button onclick="verSaude()">❤️ Status</button><button onclick="atalho('cria uma imagem de um leão brabo')">🖼️ Criar Imagem</button><button onclick="atalho('cria um arquivo de texto com uma lista de compras')">📄 Criar Arquivo</button><button onclick="limpar()">🧹 Limpar</button></div>
+<div class="inputbar">
+<button id="btnClip" onclick="document.getElementById('fileInput').click()">📎</button>
+<input type="file" id="fileInput" style="display:none" onchange="mandarArquivo(this)">
+<input type="text" id="texto" placeholder="Fala, manda arquivo, pede imagem...">
+<button id="btnMic" onclick="ouvir()">🎤</button>
+<button id="btnSend" onclick="enviar()">↑</button>
+</div>
+</div>
+<script>
+const API="https://fosja-api.onrender.com";
+let modo = localStorage.getItem("fosja_modo") || "suave";
+let vozLigada = true; let reconhecendo=false;
+function atalho(t){ document.getElementById("texto").value=t; enviar(); }
+function falar(texto){ if(!vozLigada) return; speechSynthesis.cancel(); let u=new SpeechSynthesisUtterance(texto); u.lang="pt-BR"; if(modo==="extremo"){ u.rate=1.25; u.pitch=0.6; } else { u.rate=0.85; u.pitch=1.1; } let v=speechSynthesis.getVoices().find(v=>v.lang.includes("pt-BR")); if(v) u.voice=v; speechSynthesis.speak(u); }
+function testarVoz(){ falar(modo==="extremo" ? "Fala Pai! Modo extremo ligado. Sem dó!" : "Fala Pai... Tô no modo suave, calminho."); }
+function toggleVoz(){ vozLigada=!vozLigada; document.getElementById("btnVoz").innerText=vozLigada?"🔊 Voz: LIGADA":"🔇 Voz: DESLIGADA"; document.getElementById("btnVoz").className=vozLigada?"on":""; if(!vozLigada) speechSynthesis.cancel(); }
+function mandarArquivo(input){ let f=input.files[0]; if(!f) return; let reader=new FileReader(); reader.onload=(e)=>{ let div=document.createElement("div"); div.className="msg eu"; div.innerText="📎 Mandou: "+f.name; if(f.type.startsWith("image/")){ let img=document.createElement("img"); img.src=e.target.result; div.appendChild(img); } else if(f.type.startsWith("video/")){ let v=document.createElement("video"); v.src=e.target.result; v.controls=true; v.style.maxWidth="100%"; div.appendChild(v); } else if(f.type.startsWith("audio/")){ let a=document.createElement("audio"); a.src=e.target.result; a.controls=true; div.appendChild(a); } else { let a=document.createElement("a"); a.href=e.target.result; a.download=f.name; a.innerText="⬇️ Baixar "+f.name; div.appendChild(a); } document.getElementById("msgs").appendChild(div); document.getElementById("msgs").scrollTop=99999; setTimeout(()=>{ enviar("Acabei de mandar um arquivo chamado "+f.name); },400); }; reader.readAsDataURL(f); input.value=""; }
+function criarImagemDoTexto(prompt){ let url="https://image.pollinations.ai/prompt/"+encodeURIComponent(prompt)+"?width=1024&height=1024&seed="+Math.floor(Math.random()*99999)+"&nologo=true"; let div=document.createElement("div"); div.className="msg fosja "+modo; div.innerText="🖼️ Criei tua imagem, Pai: "+prompt; let img=document.createElement("img"); img.src=url; let a=document.createElement("a"); a.href=url; a.target="_blank"; a.innerText="⬇️ Baixar imagem"; div.appendChild(img); div.appendChild(a); document.getElementById("msgs").appendChild(div); falar("Criei tua imagem, Pai."); }
+function criarArquivoDoTexto(conteudo, nome){ let blob=new Blob([conteudo],{type:"text/plain"}); let url=URL.createObjectURL(blob); let div=document.createElement("div"); div.className="msg fosja "+modo; div.innerText="📄 Criei teu arquivo: "+nome; let a=document.createElement("a"); a.href=url; a.download=nome; a.innerText="⬇️ Baixar "+nome; div.appendChild(a); document.getElementById("msgs").appendChild(div); falar("Criei teu arquivo, Pai."); }
+function ouvir(){ let SR=window.SpeechRecognition||window.webkitSpeechRecognition; if(!SR){ alert("Usa o Chrome, Pai."); return; } if(reconhecendo) return; let rec=new SR(); rec.lang="pt-BR"; rec.onstart=()=>{ reconhecendo=true; document.getElementById("btnMic").classList.add("gravando"); }; rec.onresult=(e)=>{ document.getElementById("texto").value=e.results[0][0].transcript; enviar(); }; rec.onend=()=>{ reconhecendo=false; document.getElementById("btnMic").classList.remove("gravando"); }; rec.start(); }
+function setModo(m){ modo=m; localStorage.setItem("fosja_modo",m); document.getElementById("btnSuave").className=m==="suave"?"ativo-suave":""; document.getElementById("btnExtremo").className=m==="extremo"?"ativo-extremo":""; let msg=m==="extremo"?"🔥 MODO EXTREMO LIGADO. Sem dó!":"🌸 MODO SUAVE LIGADO. Calmo."; addMsg(msg,"fosja"); falar(msg); }
+function entrarGoogle(){
+  // ANIMAÇÃO: login some e some de verdade
+  let login=document.getElementById("login");
+  login.classList.add("sumindo");
+  setTimeout(()=>{
+    let nome=prompt("Qual nome no teu Google, Pai?");
+    if(nome){ localStorage.setItem("fosja_logado","sim"); localStorage.setItem("fosja_nome",nome); mostrar(); }
+    else { login.classList.remove("sumindo"); }
+  },500);
+}
+function mostrar(){
+  document.getElementById("login").style.display="none";
+  let app=document.getElementById("app"); app.style.display="flex"; app.classList.add("mostrando");
+  document.getElementById("btnSuave").className=modo==="suave"?"ativo-suave":"";
+  document.getElementById("btnExtremo").className=modo==="extremo"?"ativo-extremo":"";
+  let nome=localStorage.getItem("fosja_nome")||"Pai"; carregar(); addMsg("Fala "+nome+"! Bem-vindo ao FOSJA GOLD ✨","fosja");
+}
+function sair(){ localStorage.clear(); location.reload(); }
+if(localStorage.getItem("fosja_logado")==="sim") mostrar();
+function addMsg(t,q){ let d=document.createElement("div"); d.className="msg "+q; if(q==="fosja") d.classList.add(modo); d.innerText=t; if(q==="fosja"){ let s=document.createElement("small"); s.innerText="🔊 Tocar voz"; s.style.cursor="pointer"; s.onclick=()=>falar(t); d.appendChild(s); } document.getElementById("msgs").appendChild(d); document.getElementById("msgs").scrollTop=99999; }
+async function carregar(){ try{ let r=await fetch(API+"/api/saude"); let j=await r.json(); document.getElementById("perfil").innerText="👤 "+j.perfilNaMemoria.nome+" • GOLD • Modo: "+modo.toUpperCase()+" • "+j.turnosNaMemoria+" conversas\n❤️ Gosta: "+(j.perfilNaMemoria.gosta.join(", ")||"-")+"\n🚫 Odeia: "+(j.perfilNaMemoria.odeia.join(", ")||"-"); }catch(e){ document.getElementById("perfil").innerText="FOSJA GOLD offline"; } }
+async function enviar(textoForcado){
+  let i=document.getElementById("texto"); let t=textoForcado||i.value.trim(); if(!t) return;
+  if(!textoForcado) addMsg(t,"eu"); i.value="";
+  let baixo=t.toLowerCase();
+  if(baixo.includes("cria") && (baixo.includes("imagem")||baixo.includes("foto")||baixo.includes("desenho")||baixo.includes("logo"))){ let prompt=t.replace(/cria (uma |um )?/i,"").replace(/imagem de /i,""); addMsg("🖼️ Criando tua imagem GOLD...","fosja"); setTimeout(()=>{ criarImagemDoTexto(prompt||t); },500); return; }
+  if(baixo.includes("cria") && (baixo.includes("arquivo")||baixo.includes("texto")||baixo.includes("lista")||baixo.includes("documento"))){ addMsg("📄 Criando teu arquivo GOLD...","fosja"); setTimeout(()=>{ criarArquivoDoTexto("Arquivo GOLD - FOSJA\n\nPedido: "+t+"\nModo: "+modo+"\nData: "+new Date().toLocaleString("pt-BR"), "arquivo-fosja.txt"); },500); return; }
+  addMsg("...","fosja");
+  let prefixo=modo==="extremo"?"[MODO EXTREMO] ":"[MODO SUAVE] ";
+  try{ let r=await fetch(API+"/api/pensar",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mensagem: prefixo+t, modo: modo})}); let j=await r.json(); document.querySelectorAll(".msg.fosja").forEach(e=>{ if(e.innerText==="...") e.remove(); }); let resp=j.resposta||"Entendi."; addMsg(resp,"fosja"); falar(resp); carregar(); }catch(e){ document.querySelectorAll(".msg.fosja").forEach(e=>{ if(e.innerText==="...") e.remove(); }); addMsg("Sem conexão.","fosja"); }
+}
+async function verMemoria(){ let r=await fetch(API+"/api/memoria"); let j=await r.json(); let e=document.getElementById("extra"); e.style.display="block"; e.innerText="🧠 MEMÓRIA\n"+JSON.stringify(j,null,2); }
+async function verSaude(){ let r=await fetch(API+"/api/saude"); let j=await r.json(); let e=document.getElementById("extra"); e.style.display="block"; e.innerText="❤️ STATUS GOLD\nModo: "+modo+"\n"+JSON.stringify(j,null,2); }
+function limpar(){ document.getElementById("msgs").innerHTML=""; }
+document.getElementById("texto").addEventListener("keydown",e=>{ if(e.key==="Enter") enviar(); });
+</script>
+</body>
+</html>
