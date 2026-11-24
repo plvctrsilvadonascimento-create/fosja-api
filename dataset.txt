@@ -1,8 +1,0 @@
-fosja/
-  dataset.txt       <- os textos que TU cria, é o conhecimento dela
-  tokenizer.py      <- ela aprende as palavras
-  modelo.py         <- o cérebro dela
-  treinar.py        <- ela aprende sozinha
-  app.py            <- servidor ao vivo, igual a ideia do vídeo
-  index.html        <- o site
-  cerebro.pt        <- vai ser criado depois do treino
