@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOSJA</title>
+<style>
+*{box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
+body{margin:0;color:#fff;min-height:100vh;background:#080508;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(500px 300px at 85% 5%, rgba(255,30,30,.45), transparent 60%),#080508;filter:blur(2px)}
+.bokeh{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bokeh span{position:absolute;border-radius:50%;background:radial-gradient(circle, rgba(255,40,40,.55), transparent 70%);filter:blur(18px);animation:flutuar 8s ease-in-out infinite alternate}
+.bokeh span:nth-child(1){width:180px;height:180px;left:-40px;top:15%}
+.bokeh span:nth-child(2){width:220px;height:220px;right:-60px;top:35%}
+.bokeh span:nth-child(3){width:120px;height:120px;left:40%;top:65%}
+@keyframes flutuar{from{transform:translateY(0)}to{transform:translateY(-25px) translateX(15px)}}
+header{padding:16px 18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:900;font-size:26px;letter-spacing:3px}
+.logo span{color:#ff2a2a;text-shadow:0 0 20px #ff2a2a}
+.topo-btn{background:linear-gradient(180deg,#ff3b3b,#c40000);border:none;color:#fff;padding:12px 20px;border-radius:14px;font-weight:800;cursor:pointer}
+.glass{margin:10px 14px;padding:18px;border-radius:28px;background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));backdrop-filter:blur(22px);border:1px solid rgba(255,80,80,.35)}
+.glass-top{display:flex;justify-content:space-between;align-items:center}
+.pill{border:1px solid rgba(255,80,80,.6);color:#ffb3b3;padding:7px 12px;border-radius:999px;font-size:12px}
+.opcoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.opcao{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;padding:9px 14px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer}
+.opcao.ativo{background:#ff2222;border-color:#ff2222}
+#chat{display:flex;flex-direction:column;gap:14px;margin-top:14px;max-height:420px;overflow-y:auto}
+.msg{max-width:88%;padding:12px 14px;border-radius:18px;line-height:1.6;white-space:pre-wrap;font-size:15px}
+.user{background:rgba(255,255,255,.08);align-self:flex-end;border-bottom-right-radius:6px}
+.ia{align-self:flex-start}
+.bar{display:flex;gap:10px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.12);padding:8px;border-radius:999px;margin-top:14px}
+input{flex:1;background:transparent;border:none;outline:none;color:#fff;padding:12px;font-size:15px}
+.send{background:#ff2222;border:none;width:44px;height:44px;border-radius:50%;color:#fff;font-size:20px;cursor:pointer}
+.stats{display:flex;gap:12px;margin:14px}
+.stat{flex:1;text-align:center;padding:16px;border-radius:22px}
+.stat b{font-size:30px}.stat b.red{color:#ff3b3b}.stat small{color:#aaa}
+</style>
+</head>
+<body>
+<div class="bokeh"><span></span><span></span><span></span></div>
+<header><div class="logo">FOS<span>JA</span></div><button class="topo-btn">Testar / Probar</button></header>
+<div class="glass">
+<div class="glass-top"><div>🔴 <b>FOSJA CHAT</b></div><div class="pill" id="pillModo">MODO LIVRE</div></div>
+
+<!-- OPÇÕES - SÓ ESTRUTURA, MANDA PRO CÉREBRO -->
+<div class="opcoes">
+  <button class="opcao ativo" onclick="setIdioma('pt',this)">PT</button>
+  <button class="opcao" onclick="setIdioma('es',this)">ES</button>
+  <button class="opcao ativo" onclick="setModo('livre',this)">Modo Livre</button>
+  <button class="opcao" onclick="setModo('avancado',this)">Modo Avançado</button>
+  <button class="opcao" onclick="setModo('modelos',this)">32 Modelos</button>
+</div>
+
+<div id="chat"></div>
+<div class="bar">
+<input id="pergunta" placeholder="Pergunta qualquer coisa pra FOSJA... / Pregunta lo que quieras..." onkeydown="if(event.key==='Enter') enviar()">
+<button class="send" onclick="enviar()">↑</button>
+</div>
+</div>
+<div class="stats">
+<div class="glass stat"><b>32</b><br><small>MODELOS IA</small></div>
+<div class="glass stat"><b class="red">4,85/5</b><br><small>NOTA CLIENTES</small></div>
+</div>
+
+<script>
+// SÓ ESTRUTURA - NÃO PENSA AQUI, SÓ MANDA A OPÇÃO
+let idiomaAtual = 'pt';
+let modoAtual = 'livre';
+
+function setIdioma(v, btn){
+  idiomaAtual = v;
+  document.querySelectorAll('.opcoes .opcao').forEach(b=>{
+    if(b.textContent==='PT' || b.textContent==='ES') b.classList.remove('ativo');
+  });
+  btn.classList.add('ativo');
+}
+function setModo(v, btn){
+  modoAtual = v;
+  document.querySelectorAll('.opcoes .opcao').forEach(b=>{
+    if(b.textContent.includes('Modo') || b.textContent.includes('Modelos')) b.classList.remove('ativo');
+  });
+  btn.classList.add('ativo');
+  document.getElementById('pillModo').textContent = v==='avancado' ? 'MODO AVANÇADO' : v==='modelos' ? '32 MODELOS' : 'MODO LIVRE';
+}
+
+const chatDiv=document.getElementById('chat'), input=document.getElementById('pergunta');
+function addMsg(t,tipo){let d=document.createElement('div');d.className='msg '+tipo;d.textContent=t;chatDiv.appendChild(d);chatDiv.scrollTop=chatDiv.scrollHeight;return d}
+
+async function enviar(){
+  let p=input.value.trim(); if(!p) return;
+  addMsg(p,'user'); input.value='';
+  let div=addMsg('','ia');
+  // AQUI SÓ MANDA A OPÇÃO PRO CÉREBRO, QUEM PENSA É O APP.PY
+  let url = '/chat?pergunta='+encodeURIComponent(p)+'&idioma='+idiomaAtual+'&modo='+modoAtual;
+  let res=await fetch(url);
+  let reader=res.body.getReader(); let dec=new TextDecoder(); let buf='';
+  while(true){let{done,value}=await reader.read(); if(done) break; buf+=dec.decode(value,{stream:true}); let linhas=buf.split('\n\n'); buf=linhas.pop(); for(let l of linhas){ if(l.startsWith('data: ')){ let dado=l.slice(6); if(dado==='[FIM]') continue; try{ let j=JSON.parse(dado); div.textContent+=j.texto; chatDiv.scrollTop=chatDiv.scrollHeight }catch(e){} }}}
+}
+</script>
+</body>
+</html>
