@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>FOSJA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+*{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+body{margin:0;color:#fff;min-height:100vh;background:#080508;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(600px 320px at 85% 2%, rgba(255,30,30,.50), transparent 60%),radial-gradient(500px 400px at 5% 95%, rgba(255,0,0,.28), transparent 60%),radial-gradient(400px 300px at 50% 50%, rgba(120,0,0,.18), transparent 70%),#080508;filter:blur(2px)}
+.bokeh{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bokeh span{position:absolute;border-radius:50%;background:radial-gradient(circle, rgba(255,40,40,.55), transparent 70%);filter:blur(18px);animation:flutuar 8s ease-in-out infinite alternate}
+.bokeh span:nth-child(1){width:180px;height:180px;left:-40px;top:12%}
+.bokeh span:nth-child(2){width:240px;height:240px;right:-60px;top:35%}
+.bokeh span:nth-child(3){width:120px;height:120px;left:40%;top:68%}
+.bokeh span:nth-child(4){width:90px;height:90px;left:70%;top:78%;animation-delay:1.2s}
+@keyframes flutuar{from{transform:translateY(0) scale(1)}to{transform:translateY(-28px) translateX(16px) scale(1.08)}}
+.wrap{max-width:920px;margin:0 auto;padding-bottom:24px}
+header{padding:18px 18px 8px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font-weight:900;font-size:28px;letter-spacing:3px;line-height:1}
+.logo span{color:#ff2a2a;text-shadow:0 0 22px #ff2a2a}
+.logo small{display:block;font-size:10px;letter-spacing:4px;color:#999;font-weight:700;margin-top:4px}
+.topo-btn{background:linear-gradient(180deg,#ff3b3b,#c40000);border:1px solid rgba(255,255,255,.22);color:#fff;padding:13px 22px;border-radius:14px;font-weight:800;font-size:14px;box-shadow:0 0 28px rgba(255,0,0,.45), inset 0 1px 0 rgba(255,255,255,.25);cursor:pointer;white-space:nowrap}
+.topo-btn:active{transform:scale(.97)}
+.hero{padding:10px 18px 0;text-align:left}
+.hero h1{margin:6px 0 4px;font-size:34px;line-height:1.05;letter-spacing:-.5px}
+.hero h1 i{color:#ff2a2a;font-style:normal;text-shadow:0 0 24px rgba(255,0,0,.6)}
+.hero p{margin:0;color:#bbb;font-size:14.5px;line-height:1.6}
+.glass{margin:16px 14px 0;padding:18px;border-radius:28px;background:linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.03));backdrop-filter:blur(22px) saturate(140%);-webkit-backdrop-filter:blur(22px) saturate(140%);border:1px solid rgba(255,80,80,.35);box-shadow:0 20px 60px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.12)}
+.glass-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.glass-top-left{display:flex;align-items:center;gap:10px;font-weight:800;font-size:14px}
+.dot{width:10px;height:10px;border-radius:50%;background:#ff2a2a;box-shadow:0 0 14px #ff2a2a;animation:piscar 1.6s ease-in-out infinite}
+@keyframes piscar{0%,100%{opacity:1}50%{opacity:.35}}
+.pill{border:1px solid rgba(255,80,80,.6);color:#ffb3b3;padding:7px 12px;border-radius:999px;font-size:12px;font-weight:700;background:rgba(255,0,0,.08);white-space:nowrap}
+.opcoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.opcao{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;padding:10px 15px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
+.opcao:active{transform:scale(.96)}
+.opcao.ativo{background:#ff2222;border-color:#ff2222;box-shadow:0 0 18px rgba(255,0,0,.5)}
+.opcao.sec{color:#ffd9d9}
+#chat{display:flex;flex-direction:column;gap:14px;margin-top:16px;max-height:460px;overflow-y:auto;padding-right:4px;scroll-behavior:smooth}
+#chat::-webkit-scrollbar{width:5px}
+#chat::-webkit-scrollbar-thumb{background:rgba(255,0,0,.4);border-radius:99px}
+.empty{text-align:center;color:#999;font-size:14px;line-height:1.7;padding:22px 10px;border:1px dashed rgba(255,255,255,.14);border-radius:18px}
+.empty b{color:#fff}
+.msg{max-width:88%;padding:13px 15px;border-radius:20px;line-height:1.65;white-space:pre-wrap;font-size:15px;word-break:break-word;animation:entrar .25s ease}
+@keyframes entrar{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.user{background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.14);align-self:flex-end;border-bottom-right-radius:6px}
+.ia{background:rgba(255,0,0,.06);border:1px solid rgba(255,80,80,.18);align-self:flex-start;border-bottom-left-radius:6px}
+.ia b{color:#fff}
+.typing{display:none;align-items:center;gap:6px;padding:12px 14px;border-radius:18px;background:rgba(255,0,0,.06);border:1px solid rgba(255,80,80,.18);align-self:flex-start}
+.typing i{width:7px;height:7px;border-radius:50%;background:#ff5a5a;display:block;animation:typing 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}
+.typing i:nth-child(3){animation-delay:.3s}
+@keyframes typing{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+.bar{display:flex;gap:10px;background:rgba(0,0,0,.48);border:1px solid rgba(255,255,255,.14);padding:8px 8px 8px 16px;border-radius:999px;margin-top:16px;align-items:center}
+.bar:focus-within{border-color:rgba(255,60,60,.55);box-shadow:0 0 0 3px rgba(255,0,0,.12)}
+input{flex:1;background:transparent;border:none;outline:none;color:#fff;padding:12px 0;font-size:15px;min-width:0}
+input::placeholder{color:#888}
+.send{background:#ff2222;border:none;min-width:46px;width:46px;height:46px;border-radius:50%;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 0 18px rgba(255,0,0,.45);display:flex;align-items:center;justify-content:center}
+.send:disabled{opacity:.5}
+.hint{display:flex;justify-content:space-between;gap:10px;margin-top:10px;color:#777;font-size:12px}
+.hint span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stats{display:flex;gap:12px;margin:14px}
+.stat{flex:1;text-align:center;padding:18px 10px;border-radius:22px}
+.stat b{font-size:30px;line-height:1;display:block}
+.stat b.red{color:#ff3b3b;text-shadow:0 0 18px rgba(255,0,0,.4)}
+.stat small{color:#aaa;letter-spacing:1px;font-size:11px;font-weight:700;display:block;margin-top:6px;line-height:1.4}
+.sugestoes{display:flex;gap:8px;flex-wrap:wrap;margin:14px 14px 0}
+.sug{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#ddd;padding:9px 12px;border-radius:999px;font-size:12.5px;cursor:pointer}
+.footer{text-align:center;color:#666;font-size:12px;margin-top:16px;line-height:1.6;padding:0 18px}
+@media(max-width:520px){.hero h1{font-size:28px}.topo-btn{padding:11px 14px;font-size:13px}.msg{max-width:94%}.hint span:last-child{display:none}}
+</style>
+</head>
+<body>
+<div class="bokeh"><span></span><span></span><span></span><span></span></div>
+<div class="wrap">
+<header><div class="logo">FOS<span>JA</span><small>INTELIGÊNCIA ARTIFICIAL</small></div><button class="topo-btn" onclick="document.getElementById('pergunta').focus()">Testar / Probar</button></header>
+<div class="hero"><h1>Pergunta qualquer coisa.<br><i>FOSJA pensa e responde.</i></h1><p>Português e espanhol. Livre, avançado e 32 modelos. Ela aprende com o que tu escreve e responde de acordo com o contexto.</p></div>
+<div class="glass">
+<div class="glass-top"><div class="glass-top-left"><span class="dot"></span><span>FOSJA CHAT</span></div><div class="pill" id="pillModo">MODO LIVRE</div></div>
+<div class="opcoes">
+<button class="opcao ativo" onclick="setIdioma('pt',this)">PT</button>
+<button class="opcao" onclick="setIdioma('es',this)">ES</button>
+<button class="opcao ativo" onclick="setModo('livre',this)">Modo Livre</button>
+<button class="opcao" onclick="setModo('avancado',this)">Modo Avançado</button>
+<button class="opcao sec" onclick="setModo('modelos',this)">32 Modelos</button>
+</div>
+<div id="chat"><div class="empty" id="empty">👋 <b>Oi, eu sou a FOSJA.</b><br>Escreve qualquer coisa aqui embaixo que eu penso e respondo na hora.<br>Escribe lo que quieras, pienso y respondo en el momento.</div></div>
+<div class="typing" id="typing"><i></i><i></i><i></i></div>
+<div class="bar">
+<input id="pergunta" placeholder="Pergunta qualquer coisa pra FOSJA... / Pregunta lo que quieras..." autocomplete="off" onkeydown="if(event.key==='Enter') enviar()">
+<button class="send" id="btnSend" onclick="enviar()">↑</button>
+</div>
+<div class="hint"><span>Enter para enviar</span><span id="contador">PT • MODO LIVRE</span></div>
+</div>
+<div class="sugestoes">
+<button class="sug" onclick="usarSugestao('O que você pode fazer?')">O que você pode fazer?</button>
+<button class="sug" onclick="usarSugestao('Me explica como você pensa')">Me explica como você pensa</button>
+<button class="sug" onclick="usarSugestao('¿Qué puedes hacer?')">¿Qué puedes hacer?</button>
+</div>
+<div class="stats">
+<div class="glass stat"><b>32</b><small>MODELOS IA<br>MODELOS IA</small></div>
+<div class="glass stat"><b class="red">4,85/5</b><small>NOTA CLIENTES<br>NOTA CLIENTES</small></div>
+<div class="glass stat"><b>PT / ES</b><small>IDIOMAS<br>IDIOMAS</small></div>
+</div>
+<div class="footer">FOSJA • Pensa com base no que aprendeu • Responde de acordo com o que tu escreve</div>
+</div>
+<script>
+let idiomaAtual='pt';
+let modoAtual='livre';
+let enviando=false;
+function atualizarContador(){document.getElementById('contador').textContent=(idiomaAtual==='pt'?'PT':'ES')+' • '+(modoAtual==='avancado'?'MODO AVANÇADO':modoAtual==='modelos'?'32 MODELOS':'MODO LIVRE');}
+function setIdioma(v,btn){idiomaAtual=v;document.querySelectorAll('.opcoes .opcao').forEach(b=>{if(b.textContent==='PT'||b.textContent==='ES')b.classList.remove('ativo')});btn.classList.add('ativo');atualizarContador();}
+function setModo(v,btn){modoAtual=v;document.querySelectorAll('.opcoes .opcao').forEach(b=>{if(b.textContent.includes('Modo')||b.textContent.includes('Modelos'))b.classList.remove('ativo')});btn.classList.add('ativo');document.getElementById('pillModo').textContent=v==='avancado'?'MODO AVANÇADO':v==='modelos'?'32 MODELOS':'MODO LIVRE';atualizarContador();}
+function usarSugestao(t){document.getElementById('pergunta').value=t;enviar();}
+const chatDiv=document.getElementById('chat'),input=document.getElementById('pergunta'),typing=document.getElementById('typing'),btnSend=document.getElementById('btnSend');
+function addMsg(t,tipo){let e=document.getElementById('empty');if(e)e.remove();let d=document.createElement('div');d.className='msg '+tipo;d.textContent=t;chatDiv.appendChild(d);chatDiv.scrollTop=chatDiv.scrollHeight;return d}
+function mostrarTyping(v){typing.style.display=v?'flex':'none';if(v)chatDiv.scrollTop=chatDiv.scrollHeight;}
+async function enviar(){
+if(enviando)return;
+let p=input.value.trim();if(!p)return;
+enviando=true;btnSend.disabled=true;
+addMsg(p,'user');input.value='';
+let div=addMsg('','ia');mostrarTyping(true);
+try{
+let url='/chat?pergunta='+encodeURIComponent(p)+'&idioma='+encodeURIComponent(idiomaAtual)+'&modo='+encodeURIComponent(modoAtual);
+let res=await fetch(url);
+mostrarTyping(false);
+if(!res.ok){div.textContent='Não consegui responder agora. Tenta de novo.';enviando=false;btnSend.disabled=false;return;}
+let reader=res.body.getReader();let dec=new TextDecoder();let buf='';
+while(true){let{done,value}=await reader.read();if(done)break;buf+=dec.decode(value,{stream:true});let linhas=buf.split('\n\n');buf=linhas.pop();for(let l of linhas){if(l.startsWith('data: ')){let dado=l.slice(6);if(dado==='[FIM]')continue;try{let j=JSON.parse(dado);if(j.texto)div.textContent+=j.texto;chatDiv.scrollTop=chatDiv.scrollHeight;}catch(e){}}}}
+if(!div.textContent.trim())div.textContent='Não consegui gerar resposta agora.';
+}catch(err){mostrarTyping(false);div.textContent='Erro de conexão. Verifica tua internet e tenta de novo.';}
+enviando=false;btnSend.disabled=false;input.focus();
+}
+input.focus();
+</script>
+</body>
+</html>
