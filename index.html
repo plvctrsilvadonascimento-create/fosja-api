@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOSJA - Inteligência Artificial</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#0a0505;color:#fff;font-family:system-ui,Arial,sans-serif}
+body{display:flex;flex-direction:column}
+.top{background:radial-gradient(circle at top, #3a0000 0%, #0a0505 65%);padding:16px 16px 12px}
+header{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:32px;font-weight:900;letter-spacing:2px;line-height:1}
+.logo span{color:#ff1a1a}
+.logo small{display:block;font-size:10px;letter-spacing:4px;color:#aaa;font-weight:400}
+.btn-top{background:#ff1a1a;color:#fff;border:none;padding:10px 16px;border-radius:10px;font-weight:800}
+h1{font-size:30px;line-height:1.1;margin:18px 0 8px}
+h1 span{color:#ff1a1a}
+.sub{color:#bbb;font-size:14px;line-height:1.5;margin:0}
+.card{background:#151010;border:1px solid #2a1a1a;border-radius:20px;padding:14px;margin:14px 16px 0;display:flex;flex-direction:column;flex:1;min-height:0}
+.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{background:#222;padding:8px 14px;border-radius:999px;font-size:13px;border:1px solid #333;cursor:pointer}
+.pill.on{background:#ff1a1a;border-color:#ff1a1a}
+.pill.modo{border-color:#ff1a1a;color:#ffb3b3}
+#chat{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-top:12px;min-height:180px}
+.msg{padding:12px 14px;border-radius:16px;max-width:85%;line-height:1.4;font-size:15px;white-space:pre-wrap}
+.bot{background:#241a1a;align-self:flex-start}
+.user{background:#2a2a2a;align-self:flex-end}
+#box{display:flex;gap:8px;background:#151010;border-radius:999px;padding:6px 6px 6px 16px;margin-top:12px;border:1px solid #333}
+#box input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:14px;min-width:0}
+#box button{background:#ff1a1a;color:#fff;border:none;width:44px;height:44px;border-radius:50%;font-size:18px}
+.hint{display:flex;justify-content:space-between;font-size:12px;color:#777;margin-top:8px}
+.sug{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px}
+.sug span{border:1px solid #333;padding:8px 12px;border-radius:999px;font-size:13px;color:#ccc;cursor:pointer}
+.stats{display:flex;gap:10px;padding:0 16px 12px}
+.stat{flex:1;background:#151010;border:1px solid #2a2a2a;border-radius:16px;padding:14px 8px;text-align:center}
+.stat b{font-size:26px;display:block}
+.stat.red b{color:#ff1a1a}
+.stat span{font-size:10px;letter-spacing:1px;color:#aaa;display:block;margin-top:6px}
+.foot{text-align:center;color:#555;font-size:12px;padding:6px 16px 16px}
+</style>
+</head>
+<body>
+<div class="top">
+<header><div class="logo">FOS<span>JA</span><small>INTELIGÊNCIA ARTIFICIAL</small></div><button class="btn-top" onclick="document.getElementById('inp').focus()">Testar / Probar</button></header>
+<h1>Pergunta qualquer coisa.<br><span>FOSJA pensa e responde.</span></h1>
+<p class="sub">Português e espanhol. Livre, avançado e 32 modelos.</p>
+</div>
+<div class="card">
+<div class="card-head"><div>🔴 <b>FOSJA CHAT</b></div><div class="pill modo" id="modoLabel">MODO LIVRE</div></div>
+<div class="pills">
+<span class="pill on" onclick="setLang('pt',this)">PT</span>
+<span class="pill" onclick="setLang('es',this)">ES</span>
+<span class="pill on" onclick="setModo('livre',this)">Modo Livre</span>
+<span class="pill" onclick="setModo('avancado',this)">Modo Avançado</span>
+<span class="pill" onclick="setModo('modelos',this)">32 Modelos</span>
+</div>
+<div id="chat"><div class="msg bot">Oi, sou a FOSJA. Pergunta qualquer coisa que eu penso e respondo.</div></div>
+<div id="box"><input id="inp" placeholder="Pergunta qualquer coisa pra FOSJA..."><button onclick="enviar()">↑</button></div>
+<div class="hint"><span>Enter para enviar</span><span id="langLabel">PT • MODO LIVRE</span></div>
+</div>
+<div class="sug"><span onclick="perguntar(this)">O que você pode fazer?</span><span onclick="perguntar(this)">Me explica como você pensa</span><span onclick="perguntar(this)">¿Qué puedes hacer?</span></div>
+<div class="stats">
+<div class="stat"><b>32</b><span>MODELOS IA</span></div>
+<div class="stat red"><b>4,85/5</b><span>AVALIAÇÃO</span></div>
+<div class="stat"><b>PT / ES</b><span>IDIOMAS</span></div>
+</div>
+<div class="foot">FOSJA • Pensa com base no que aprendeu</div>
+<script>
+let LANG="pt", MODO="livre";
+const API_BASE="https://fosja-api-1.onrender.com";
+function setLang(l,el){LANG=l;document.querySelectorAll('.pills .pill').forEach(p=>{if(p.innerText==='PT'||p.innerText==='ES')p.classList.remove('on')});el.classList.add('on');updateLabel();}
+function setModo(m,el){MODO=m;document.querySelectorAll('.pills .pill').forEach(p=>{if(p.innerText.includes('Modo')||p.innerText.includes('Modelos'))p.classList.remove('on')});el.classList.add('on');document.getElementById('modoLabel').innerText="MODO "+(m==='avancado'?'AVANÇADO':m==='modelos'?'32 MODELOS':'LIVRE');updateLabel();}
+function updateLabel(){document.getElementById('langLabel').innerText=LANG.toUpperCase()+" • MODO "+MODO.toUpperCase();}
+function perguntar(el){document.getElementById('inp').value=el.innerText;enviar();}
+async function enviar(){
+  const inp=document.getElementById("inp");const texto=inp.value.trim();if(!texto)return;
+  const chat=document.getElementById("chat");chat.innerHTML+=`<div class="msg user">${texto}</div>`;inp.value="";
+  const id="m"+Date.now();chat.innerHTML+=`<div class="msg bot" id="${id}">...</div>`;chat.scrollTop=chat.scrollHeight;
+  const el=document.getElementById(id);el.innerText="";
+  try{
+    const r=await fetch(`${API_BASE}/chat?pergunta=${encodeURIComponent(texto)}&idioma=${LANG}&modo=${MODO}`);
+    const reader=r.body.getReader();const decoder=new TextDecoder();let buf="";let recebeu=false;
+    while(true){const {done,value}=await reader.read();if(done)break;buf+=decoder.decode(value,{stream:true});let linhas=buf.split("\n");buf=linhas.pop();for(let linha of linhas){linha=linha.trim();if(!linha.startsWith("data:"))continue;let dado=linha.slice(5).trim();if(dado==="[FIM]")break;try{let j=JSON.parse(dado);if(j.texto){el.innerText+=j.texto;recebeu=true;chat.scrollTop=chat.scrollHeight;}}catch(e){}}}
+    if(!recebeu||!el.innerText.trim()) el.innerText="Não consegui responder agora. Tenta de novo.";
+  }catch(e){el.innerText="O servidor tá acordando, espera 30s e manda de novo.";}
+  chat.scrollTop=chat.scrollHeight;
+}
+document.getElementById("inp").addEventListener("keydown",e=>{if(e.key==="Enter")enviar();});
+</script>
+</body>
+</html>
